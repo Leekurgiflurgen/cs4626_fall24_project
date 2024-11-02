@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dispute a Payment</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Dispute a Payment</h1>
+    <nav>
+      <a href="account.html">Account</a>
+      <a href="balance.html">Current Balance</a>
+      <a href="logout.html">Logout</a>
+    </nav>
+  </header>
+  <main>
+    <h2>File a Dispute</h2>
+    <form action="/submit-dispute" method="post">
+      <label for="transaction-id">Transaction ID:</label>
+      <input type="text" id="transaction-id" name="transaction-id" required>
+
+      <label for="reason">Reason for Dispute:</label>
+      <select id="reason" name="reason" required>
+        <option value="unauthorized">Unauthorized Transaction</option>
+        <option value="duplicate">Duplicate Transaction</option>
+        <option value="incorrect">Incorrect Amount</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="details">Details:</label>
+      <textarea id="details" name="details" rows="4" required></textarea>
+
+      <button type="submit">Submit Dispute</button>
+    </form>
+  </main>
+  <footer>
+    <p>&copy; 2024 Secure Payment Inc.</p>
+  </footer>
+</body>
+</html>
