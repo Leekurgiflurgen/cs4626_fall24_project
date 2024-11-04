@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" href = "/styles.css">
+    <link rel="stylesheet" href = "../styles.css">
     <link rel="stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"> 
 </head>
 <body>
@@ -25,8 +25,7 @@
             <p class="recover">
                 <a href="recover.html"> Recover Password</a>
             </p>
-            <input type="sumbit" class="btn" value="Sign In" name="signin">
-        </form>
+            <input type = "submit" class="btn" value="Log In" name="login">
         <p class="or">
            ----------or----------
         </p>
@@ -35,6 +34,6 @@
             <a href = "register.php"> Sign Up</a>
         </div>
     </div>
-    <script src="/script.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>
