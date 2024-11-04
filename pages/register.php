@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (isset($_SESSION['errors'])){
+    $errors=$_SESSION['errors'];
+    }
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,27 +17,58 @@
 <body>
     <div class = "container">
         <h1 class ="form-title">Register</h1>
-        <form method = "POST" action="">
+        <?php
+        if (isset($errors['user_exist'])){ //If error caught is user exist, echo on screen
+            echo '<div class="error-main"> <p>'.$errors['user_exist'].'</p> </div>';
+        }
+        ?>
+
+        <form method = "POST" action="../userAccount.php"> <!--Sends form to userAccount to be processed-->
             <div class="input-group">
                 <i class="fas fa-user"></i>
-                <input type="text" name="first_name" id="first_name" placeholder="First Name" required>             
+                <input type="text" name="first_name" id="first_name" placeholder="First Name" required>   
+                <?php
+                    if(isset($errors['name'])){
+                        echo '<div class="error"> <p>'.$errors['name'].'</p> </div>';
+                    }
+                ?>        
             </div>
             <div class="input-group">
                 <i class="fas fa-user"></i>
-                <input type="text" name="last_name" id="last_name" placeholder="Last Name" required>             
+                <input type="text" name="last_name" id="last_name" placeholder="Last Name" required>
+                <?php
+                    if(isset($errors['name'])){
+                        echo '<div class="error"> <p>'.$errors['name'].'</p> </div>';
+                    }
+                ?>                    
             </div>
             <div class="input-group">
                 <i class = "fas fa-envelope"></i>
                 <input type="text" name="email" id="email" placeholder="Email" required>
+                <?php
+                    if(isset($errors['email'])){
+                        echo '<div class="error"> <p>'.$errors['email'].'</p> </div>';
+                    }
+                ?>       
             </div>
             <div class="input-group password">
                 <i class ="fas fa-lock"></i>
                 <input type="text" name="password" id="password" placeholder="Password" required>
                 <i id="eye" class="fa fa-eye"></i>
+                <?php
+                    if(isset($errors['password'])){
+                        echo '<div class="error"> <p>'.$errors['password'].'</p> </div>';
+                    }
+                ?>       
             </div>
             <div class="input-group password">
                 <i class ="fas fa-lock"></i>
                 <input type="text" name="password_confirm" id="password_confirm" placeholder="Confirm Password" required>
+                <?php
+                    if(isset($errors['password_confirm'])){
+                        echo '<div class="error"> <p>'.$errors['password_confirm'].'</p> </div>';
+                    }
+                ?>       
             </div>
             <input type = "submit" class="btn" value="Sign Up" name="signup">
         </form>
@@ -48,3 +85,9 @@
     <script src="../script.js"></script>
     </body>
 </html>
+
+<?php  //Script to unload error message after refreshing page
+if (isset($_SESSION['errors'])){
+    unset($_SESSION['errors']);
+}
+?>
