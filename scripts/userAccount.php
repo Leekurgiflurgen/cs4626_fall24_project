@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
     }
     if (!empty($errors)) { //If there are any errors, stop script and reload page
         $_SESSION['errors'] = $errors;
-        header('Location: ./pages/register.php');
+        header('Location: ../pages/register.php');
         exit();
     }
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
     $stmtBalance->execute([':accountID' => $accountID,]);
 
 
-    header('Location: ./pages/login.php'); //Send to login.php
+    header('Location: ../pages/login.php'); //Send to login.php
     exit();
 }
 //If form == login
@@ -83,29 +83,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $stmtBalance = $pdo->prepare("SELECT balance FROM accountbalance WHERE user_id = :user_id");
     $stmtBalance->execute([':user_id' => $id]);
     $balanceRow = $stmtBalance->fetch(PDO::FETCH_ASSOC);
-    if ($balanceRow) {
-        $balance = $balanceRow['balance']; // Extract the balance value
-    } else {
-        $balance = 0; // Default to 0 if no record is found
-    }
+
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user'] = [
             ':id' => $user['id'],
             ':email' => $user['email'],
             ':first_name' => $user['firstName'],
             ':last_name' => $user['lastName'],
-            ':balance' => $balance
+            ':balance' => $balanceRow
         ];
-        header('Location: ./pages/home.php');
+        header('Location: /project/pages/home.php');
         exit();
     } else {
         $errors['login'] = 'Invalid email or password';
         $_SESSION['errors'] = $errors;
-        header('Location: ./pages/login.php');
+        header('Location: /project/pages/login.php');
         exit();
-    }
-    //If form == add_value
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_value'])) {
-
     }
 }

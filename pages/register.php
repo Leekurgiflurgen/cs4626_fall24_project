@@ -39,7 +39,7 @@ if (isset($_SESSION['errors'])) {
         }
         ?>
 
-        <form method="POST" action="../userAccount.php"> <!--Sends form to userAccount to be processed-->
+        <form method="POST" action="../scripts/userAccount.php"> <!--Sends form to userAccount to be processed-->
             <div class="input-group">
                 <i class="fas fa-user"></i>
                 <input type="text" name="first_name" id="first_name" placeholder="First Name" required>

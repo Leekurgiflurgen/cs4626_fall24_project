@@ -41,7 +41,7 @@ if (isset($_SESSION['errors'])) {
                   </div>';
         }
         ?>
-        <form method="POST" action="../userAccount.php"> <!--Sends form to userAccount to be processed-->
+        <form method="POST" action="../scripts/userAccount.php"> <!--Sends form to userAccount to be processed-->
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
                 <input type="email" name="email" id="email" required placeholder="Email">

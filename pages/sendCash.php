@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>Send Cash</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
@@ -14,28 +14,33 @@
         <div class="dropdown">
             <button>Menu Option</button>
             <div class="dropdown-content">
-                <a href="../index.html"></a>
+                <a href="../index.html">Home</a>
                 <a href="about.html">About</a>
                 <a href="login.php">Login</a>
                 <a href="register.php">Register</a>
-                <a href="home.php">My Account</a>
                 <a href="addCash.php">Add Cash</a>
                 <a href="sendCash.php">Send Cash</a>
             </div>
         </div>
     </div>
-    </div></br>
     <div class="container">
         <h1 class="form-title">
-            Forgot Password?
+            Send Money To Another Account
         </h1>
-        <form method="POST" action="../scripts/sendReset.php"> <!--Sends form to sendReset to be processed-->
+            <p style="text-indent: 35px">   Who would you like to send the money to?</p>
+        <form method="POST" action="../scripts/alterBalance.php"> <!--Sends form to alterBalance to be processed-->
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
                 <input type="email" name="email" id="email" required placeholder="Email">
+            </div><br>
+            <p>How much would you like to send?</p>
+            <div class="input-group">
+                <i class="fa-solid fa-dollar-sign"></i>
+                <input type="amount" name="amount" id="amount" required placeholder="Amount">
             </div>
-            <input type="submit" class="btn" value="Send Reset" name="resetPassword">
-    </div>
+            <p>
+                <input type="submit" class="btn" value="Send Money" name="send_money">
+            </p>
 </body>
 
 </html>

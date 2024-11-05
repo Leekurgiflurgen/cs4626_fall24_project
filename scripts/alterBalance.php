@@ -1,12 +1,13 @@
 <?php
-session_start();
 require_once 'dbconnect.php';
-
+session_start();
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
+    //$id = $_SESSION['id'];
 } else { //Session user is not set yet, user isn't logged in
     header('Location: pages/login.php');
 }
+
 
 //If form == add_value
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_value'])) {
@@ -16,18 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_value'])) {
         throw new Exception("Invalid amount value.");
     }
     // Convert to a decimal
-    $amount = number_format(1, 2);
+    $amount = number_format((float) $amount, 2);
     echo $amount;
-    $stmt = $pdo->prepare('UPDATE accountbalance JOIN users ON accountbalance.user_id = users.id
-                                    SET accountbalance.balance = accountbalance.balance + :amount
-                                    WHERE accountbalance.user_id = :user_id;');
-    $stmt -> execute([
-        ':amount' => $amount,
+    $stmt = $pdo->prepare('UPDATE accountbalance 
+                                   JOIN users ON accountbalance.user_id = users.id
+                                   SET accountbalance.balance = accountbalance.balance + :amount
+                                   WHERE accountbalance.user_id = :user_id');
+    $stmt->execute([
+        ':user_id' => $user[':id'],
+        ':amount' => $amount
     ]);
-  //If form == add_value
+//If form == subtract_value
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['subtract_value'])) {
-    $amount = $_POST['amount'];
-    // Check if amount is a numeric value
+     $amount = $_POST['amount'];
+     // Check if amount is a numeric value
     if (!is_numeric($amount)) {
         throw new Exception("Invalid amount value.");
     }
@@ -37,10 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['subtract_value'])) {
     $amount = number_format(1, 2);
     echo $amount;
     $stmt = $pdo->prepare('UPDATE accountbalance JOIN users ON accountbalance.user_id = users.id
-                                    SET accountbalance.balance = accountbalance.balance + :amount
-                                    WHERE accountbalance.user_id = :user_id;');
-    $stmt -> execute([
-        ':amount' => $amount,
-    ]);  
+                        SET accountbalance.balance = accountbalance.balance + :amount
+                        WHERE accountbalance.user_id = :user_id;');
+        $stmt->execute([
+            ':amount' => $amount,
+        ]);
 
+    }
 }
