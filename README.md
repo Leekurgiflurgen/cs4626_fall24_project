@@ -13,9 +13,9 @@ Here's how to run it!
 4. You will need to go to localhost/myphpadmin in order to create your localhost database. Create your database and create a table called users, with the following variables.
    id as the primary key, set to an int with a length of 100, also set to auto increment, email varchar(50), password varchar(255), firstName varchar(50), lastName varchar(50)
 
-6. Then go to "localhost/index.html" in your URL bar to run the website locally on your computer. You will need to create a few users with the register page, just follow the link on the top right on the index.html page.
+5. Then go to "localhost/index.html" in your URL bar to run the website locally on your computer. You will need to create a few users with the register page, just follow the link on the top right on the index.html page.
    
-7.Once you have created a few users you can then log in and mess around.
+6.Once you have created a few users you can then log in and mess around.
 
   
     
