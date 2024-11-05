@@ -7,24 +7,34 @@
     <title> SOPS: Home Page </title>
     <link rel = "stylesheet" href="./styles.css">
     <style>
-        h1{
+        h1,h3{
+            text-align: center;
+        }
+        img{
             text-align: center;
         }
     </style>
 
 </head>
 <body>
-    <h1> Welcome to Easy Pay! </h1>
-    <h3> You've aaa tried the rest, now pay with the best!</h3>
-
+    <h1> Welcome to Secure Pay! </h1>
+    <h3> You've tried the rest, now pay with the best!</h3>
     <div class="settings-menu">
-            <a href="./pages/about.html">About</a>
-            <a href="./pages/login.php">Login</a>
-            <a href="./pages/register.php">Register</a>
-            <a href="./pages/addCash.php">Add Cash</a>
+        <div class="dropdown">
+            <button>Menu Option</button>
+            <div class="dropdown-content">
+                <a href="pages/about.html">About</a>
+                <a href="./pages/login.php">Login</a>
+                <a href="./pages/register.php">Register</a>
+                <a href="./pages/home.php">My Account</a>
+                <a href="./pages/addCash.php">Add Cash</a>
+                <a href="./pages/sendCash.php">Send Cash</a>
+            </div>
+          </div>
         </div>
+    </div></br>
+    <div class="image-container">
+        <img src="images/what-is-payment-security.jpg" alt="Group of professional business people" height = "500  " width = "600">    
     </div>
-    
 </body>
-
 </html>
