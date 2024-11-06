@@ -2,6 +2,12 @@
 session_start();
 if (isset($_SESSION['errors'])) {
     $errors = $_SESSION['errors'];
+    
+    $user = $_SESSION['user'];
+
+}else if (isset($_SESSION['user'])) {
+    header('Location: ../index.html');
+
 }
 ?>
 
@@ -24,9 +30,11 @@ if (isset($_SESSION['errors'])) {
                 <a href="../index.html">Home</a>
                 <a href="./about.html">About</a>
                 <a href="./login.php">Login</a>
+                <a href="home.php">My Account</a>
                 <a href="./register.php">Register</a>
                 <a href="./addCash.php">Add Cash</a>
                 <a href="./sendCash.php">Send Cash</a>
+                <a href="./transferOut.php">Transfer</a>
             </div>
         </div>
     </div>
@@ -77,7 +85,7 @@ if (isset($_SESSION['errors'])) {
                 <a href="register.php"> Sign Up</a>
             </div>
     </div>
-    <script src="../script.js"></script>
+    <script src="../scripts/script.js"></script>
 </body>
 
 </html>

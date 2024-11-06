@@ -2,6 +2,9 @@
 session_start();
 if (isset($_SESSION['errors'])) {
     $errors = $_SESSION['errors'];
+    echo '<p align = "center"> Email : ' . $user[':email'] . '</p><br>';
+    echo '<p align = "center"> Name : ' . $user[':first_name'] . ' ' . $user[':last_name'] . '</p><br>';
+    echo '<p align="center">Current Balance: $' . htmlspecialchars($user[':balance']['balance']) . '</p><br>';
 }
 ?>
 <!DOCTYPE html>
@@ -27,6 +30,8 @@ if (isset($_SESSION['errors'])) {
                 <a href="home.php">My Account</a>
                 <a href="addCash.php">Add Cash</a>
                 <a href="sendCash.php">Send Cash</a>
+                <a href="./transferOut.php">Transfer Out</a>
+
             </div>
         </div>
     </div>

@@ -21,6 +21,7 @@
                 <a href="home.php">My Account</a>
                 <a href="addCash.php">Add Cash</a>
                 <a href="sendCash.php">Send Cash</a>
+                <a href="transferOut.php">Transfer Out</a>
             </div>
         </div>
     </div>

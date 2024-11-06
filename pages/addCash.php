@@ -27,6 +27,7 @@ if (isset($_SESSION['user'])) {
                 <a href="../index.html">Home</a>
                 <a href="about.html">About</a>
                 <a href="login.php">Login</a>
+                <a href="home.php">My Account</a>
                 <a href="register.php">Register</a>
                 <a href="addCash.php">Add Cash</a>
                 <a href="sendCash.php">Send Cash</a>
@@ -57,9 +58,10 @@ if (isset($_SESSION['user'])) {
                 <input type="amount" name="amount" id="amount" required placeholder="Amount">
             </div>
             <p>
-                <input type="submit" class="btn" value="Send Money" name="add_value">
+                <input type="submit" class="btn" value="Send Money" name="add_value" >
             </p>
         </form>
+    </div>
 </body>
 
 </html>

@@ -29,6 +29,8 @@ if (isset($_SESSION['user'])) {
                 <a href="register.php">Register</a>
                 <a href="addCash.php">Add Cash</a>
                 <a href="sendCash.php">Send Cash</a>
+                <a href="./transferOut.php">Transfer Out</a>
+
             </div>
         </div>
     </div>
@@ -41,8 +43,13 @@ if (isset($_SESSION['user'])) {
             echo '<p align = "center"> Name : ' . $user[':first_name'] . ' ' . $user[':last_name'] . '</p><br>';
             echo '<p align="center">Current Balance: $' . htmlspecialchars($user[':balance']['balance']) . '</p><br>';
             ?>
+
             <div style="text-align: center;">
-                <a href="../scripts/logout.php"> Logout</a>
+                <input type="submit" class="btn" value="Add Money" name="referToAdd"onclick="location.href='addCash.php'" >
+                <input type="submit" class="btn" value="Send Money" name="referToSend"onclick="location.href='sendCash.php'" >
+                <input type="submit" class="btn" value="Transfer Money" name="referToTransfer"onclick="location.href='transferOut.php'" >
+                <input type="submit" class="btn" value="Log Out" name="logout"onclick="location.href='../scripts/logout.php'" >
+
             </div>
         </div>
     </div>

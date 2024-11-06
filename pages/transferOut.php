@@ -16,7 +16,7 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Cash</title>
+    <title>Transfer Money</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
@@ -29,6 +29,7 @@ if (isset($_SESSION['user'])) {
                 <a href="../index.html">Home</a>
                 <a href="about.html">About</a>
                 <a href="login.php">Login</a>
+                <a href="home.php">My Account</a>
                 <a href="register.php">Register</a>
                 <a href="addCash.php">Add Cash</a>
                 <a href="sendCash.php">Send Cash</a>
@@ -37,22 +38,20 @@ if (isset($_SESSION['user'])) {
     </div>
     <div class="container">
         <h1 class="form-title">
-            Send Money To Another Account
+            Transfer Money To Your Bank
         </h1>
-        <p style="text-indent: 35px"> Who would you like to send the money to?</p>
-        <form method="POST" action="../scripts/alterBalance.php"> <!--Sends form to alterBalance to be processed-->
-            <div class="input-group">
-                <i class="fas fa-envelope"></i>
-                <input type="email" name="email" id="email" required placeholder="Email">
-            </div><br>
-            <p>How much would you like to send?</p>
+        <p style="text-indent: 40px"> How much would you like to transfer out?</p>
+        <form method="POST" action="../scripts/alterBalance.php">
             <div class="input-group">
                 <i class="fa-solid fa-dollar-sign"></i>
                 <input type="amount" name="amount" id="amount" required placeholder="Amount">
             </div>
             <p>
-                <input type="submit" class="btn" value="Send Money" name="send_money">
+                <input type="submit" class="btn" value="Transfer Money" name="transfer_out">
             </p>
+    </form>
+    </div>
+
 </body>
 
 </html>
