@@ -1,13 +1,15 @@
 <?php
 session_start();
+
 if (isset($_SESSION['errors'])) {
     $errors = $_SESSION['errors'];
-    
-    $user = $_SESSION['user'];
-
-}else if (isset($_SESSION['user'])) {
+}
+if (isset($_SESSION['user'])) {
     header('Location: ../index.html');
-
+}
+if (isset($_SESSION['message'])) {
+    echo "<script>alert('" . addslashes($_SESSION['message']) . "');</script>";
+    unset($_SESSION['message']); // Clear the message after displaying it
 }
 ?>
 
@@ -48,6 +50,7 @@ if (isset($_SESSION['errors'])) {
                     <p> ' . $errors['login'] . '</p>
                   </div>';
         }
+        
         ?>
         <form method="POST" action="../scripts/userAccount.php"> <!--Sends form to userAccount to be processed-->
             <div class="input-group">

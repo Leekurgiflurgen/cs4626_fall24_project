@@ -1,10 +1,9 @@
 <?php
 session_start();
+ini_set('display_errors', 0);  // Hide errors from the user
+require '../scripts/dbconnect.php';
 if (isset($_SESSION['errors'])) {
     $errors = $_SESSION['errors'];
-    echo '<p align = "center"> Email : ' . $user[':email'] . '</p><br>';
-    echo '<p align = "center"> Name : ' . $user[':first_name'] . ' ' . $user[':last_name'] . '</p><br>';
-    echo '<p align="center">Current Balance: $' . htmlspecialchars($user[':balance']['balance']) . '</p><br>';
 }
 ?>
 <!DOCTYPE html>
@@ -52,6 +51,10 @@ if (isset($_SESSION['errors'])) {
                 if (isset($errors['name'])) {
                     echo '<div class="error"> <p>' . $errors['name'] . '</p> </div>';
                 }
+                if(isset($errors['first_name_type'])) {
+                    echo '<div class="error"> <p>' . $errors['first_name_type'] . '</p> </div>';
+
+                }
                 ?>
             </div>
             <div class="input-group">
@@ -60,6 +63,10 @@ if (isset($_SESSION['errors'])) {
                 <?php
                 if (isset($errors['name'])) {
                     echo '<div class="error"> <p>' . $errors['name'] . '</p> </div>';
+                }
+                if(isset($errors['last_name_type'])) {
+                    echo '<div class="error"> <p>' . $errors['last_name_type'] . '</p> </div>';
+
                 }
                 ?>
             </div>
@@ -74,11 +81,13 @@ if (isset($_SESSION['errors'])) {
             </div>
             <div class="input-group password">
                 <i class="fas fa-lock"></i>
-                <input type="text" name="password" id="password" placeholder="Password" required>
-                <i id="eye" class="fa fa-eye"></i>
+                <input type="password" name="password" id="password" required placeholder="Password">
+                <i class="fa fa-eye" id="eye"></i>
                 <?php
                 if (isset($errors['password'])) {
-                    echo '<div class="error"> <p>' . $errors['password'] . '</p> </div>';
+                    echo '<div class = "error"> 
+                            <p> ' . $errors['password'] . '</p>
+                        </div>';
                 }
                 ?>
             </div>
@@ -86,9 +95,39 @@ if (isset($_SESSION['errors'])) {
                 <i class="fas fa-lock"></i>
                 <input type="text" name="password_confirm" id="password_confirm" placeholder="Confirm Password"
                     required>
+                <i id="eye" class="fa fa-eye"></i>
+
                 <?php
                 if (isset($errors['password_confirm'])) {
                     echo '<div class="error"> <p>' . $errors['password_confirm'] . '</p> </div>';
+                }
+                ?>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="text" name="accountPIN" id="accountPIN"
+                    placeholder="Account Pin: 5 numerical digits or more " required>
+                <i id="eye" class="fa fa-eye"></i>
+                <?php
+                
+                if (isset($errors['amount_type'])) {
+                    echo '<div class = "error-main"> 
+                        <p> ' . $errors['amount_type'] . '</p>
+                      </div>';
+                } else if (isset($errors['amount_sign'])) {
+                    echo '<div class = "error-main"> 
+                        <p> ' . $errors['amount_sign'] . '</p>
+                      </div>';
+                }
+                if (isset($errors['userPIN'])) {
+                    echo '<div class = "error-main"> 
+                        <p> ' . $errors['pin'] . '</p>
+                      </div>';
+                }
+                if (isset($errors['pin_length'])) {
+                    echo '<div class = "error-main"> 
+                        <p> ' . $errors['pin_length'] . '</p>
+                      </div>';
                 }
                 ?>
             </div>
@@ -104,7 +143,7 @@ if (isset($_SESSION['errors'])) {
             <a href="login.php"> Sign In </a>
         </div>
     </div>
-    <script src="../script.js"></script>
+    <script src="../scripts/script.js"></script>
 </body>
 
 </html>

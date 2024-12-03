@@ -1,14 +1,11 @@
 <?php
 require '../scripts/dbconnect.php';
-session_start();
-ini_set('display_errors', value: 0);  // Hide errors from the user
 
+session_start();
 
 if (isset($_SESSION['errors'])) {
     $errors = $_SESSION['errors'];
 }
-
-
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
     $stmt = $pdo->prepare('SELECT balance FROM accountbalance WHERE user_id = :id');
@@ -30,22 +27,15 @@ if (isset($_SESSION['user'])) {
     $_SESSION['message_type'] = "error";
     header('Location: login.php');
 }
-$stmt = $pdo->prepare('SELECT creditNumber FROM accountbalance WHERE user_id = :id');
-$stmt->execute([':id' => $user[':id']]);
-$result = $stmt->fetchColumn();
-
-//if credit card hasn't been added, redirect to the addCard page
-if (!strlen($result) > 0) {
-    header(header: 'Location: addCard.php');
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Cash</title>
+    <title>Add Card</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
@@ -58,10 +48,10 @@ if (!strlen($result) > 0) {
                 <a href="../index.html">Home</a>
                 <a href="about.html">About</a>
                 <a href="login.php">Login</a>
+                <a href="home.php">My Account</a>
                 <a href="register.php">Register</a>
                 <a href="addCash.php">Add Cash</a>
                 <a href="sendCash.php">Send Cash</a>
-                <a href="transferOut.php">Transfer Out</a>
             </div>
         </div>
     </div>
@@ -69,8 +59,8 @@ if (!strlen($result) > 0) {
         <h1> Currently Logged In User:</h1><br>
         <div class="body">
             <?php
-            echo '<p align = "center"> Email : ' . htmlspecialchars($user[':email']) . '</p><br>';
-            echo '<p align = "center"> Name : ' . htmlspecialchars($decryptedFirstName) . ' ' . htmlspecialchars($decryptedLastName) . '</p><br>';
+            echo '<p align = "center"> Email : ' . $user[':email'] . '</p><br>';
+            echo '<p align = "center"> Name : ' . $decryptedFirstName . ' ' . $decryptedLastName . '</p><br>';
             echo '<p align="center">Current Balance: $' . htmlspecialchars($balance) . '</p><br>';
             ?>
             <div style="text-align: center;">
@@ -80,68 +70,45 @@ if (!strlen($result) > 0) {
     </div>
     <div class="container">
         <h1 class="form-title">
-            Send Money To Another Account
+            Add Card To Account Or Replace Current Card
         </h1>
-        <p style="text-indent: 35px"> Who would you like to send the money to?</p>
-        <?php
-        if (isset($errors['user_dne'])) {
-            echo '<div class = "error-main"> 
-                    <p> ' . $errors['user_dne'] . '</p>
-                  </div>';
-        }
-        ?>
-        <form method="POST" action="../scripts/alterBalance.php"> <!--Sends form to alterBalance to be processed-->
+        <p style="text-indent: 40px"> Please enter your credit card number</p>
+        <form method="POST" action="../scripts/alterBalance.php">
             <div class="input-group">
-                <i class="fas fa-envelope"></i>
-                <input type="email" name="email" id="email" required placeholder="Email">
-            </div><br>
-            <p>Account PIN for security purposes</p>
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="text" name="accountPIN" id="accountPIN"
-                    placeholder="Account Pin: " required>
+                <i class="fa-regular fa-credit-card"></i></i>
+                <input type="creditNumber" name="creditNumber" id="creditNumber" required placeholder="Credit Number">
             </div>
             <?php
-            if (isset($errors['amount_type'])) {
+            if (isset($errors['credit_error'])) {
                 echo '<div class = "error-main"> 
-                    <p> ' . $errors['amount_type'] . '</p>
+                    <p> ' . $errors['credit_error'] . '</p>
                   </div>';
-            }
-            if(isset($errors['amount_sign'])) {
+            } else if (isset($errors['credit_length'])) {
                 echo '<div class = "error-main"> 
-                    <p> ' . $errors['amount_sign'] . '</p>
-                  </div>';
-            }
-            if (isset($errors['accountPIN'])) {
-                echo '<div class = "error-main"> 
-                    <p> ' . $errors['accountPIN'] . '</p>
+                    <p> ' . $errors['credit_length'] . '</p>
                   </div>';
             }
             ?>
-            <p>How much would you like to send?</p>
-
             <div class="input-group">
-                <i class="fa-solid fa-dollar-sign"></i>
-                <input type="amount" name="amount" id="amount" required placeholder="Amount">
+                <i class="fa-regular fa-credit-card"></i></i>
+                <input type="month" name="creditExpiry" id="creditExpiry" required placeholder="Expiration Date">
+            </div>
+            <div class="input-group">
+                <i class="fa-regular fa-credit-card"></i></i>
+                <input type="cvv" name="cvv" id="cvv" required placeholder="cvv">
             </div>
             <?php
-            if (isset($errors['amount_type'])) {
+            if (isset($errors['cvv_error'])) {
                 echo '<div class = "error-main"> 
-                    <p> ' . $errors['amount_type'] . '</p>
-                  </div>';
-            }else if(isset($errors['amount_sign'])) {
-                echo '<div class = "error-main"> 
-                    <p> ' . $errors['amount_sign'] . '</p>
-                  </div>';
-            }else if (isset($errors['insufficient_balance'])) {
-                echo '<div class = "error-main"> 
-                    <p> ' . $errors['insufficient_balance'] . '</p>
+                    <p> ' . $errors['cvv_error'] . '</p>
                   </div>';
             }
             ?>
             <p>
-                <input type="submit" class="btn" value="Send Money" name="send_money">
+                <input type="submit" class="btn" value="Add Card" name="add_card">
             </p>
+        </form>
+    </div>
 </body>
 
 </html>

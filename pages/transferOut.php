@@ -1,12 +1,41 @@
 <?php
+require '../scripts/dbconnect.php';
 session_start();
+ini_set('display_errors', value: 0);  // Hide errors from the user
+
+if (isset($_SESSION['errors'])) {
+    $errors = $_SESSION['errors'];
+}
+
+
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
-    echo '<p align = "center"> Email : ' . $user[':email'] . '</p><br>';
-    echo '<p align = "center"> Name : ' . $user[':first_name'] . ' ' . $user[':last_name'] . '</p><br>';
-    echo '<p align="center">Current Balance: $' . htmlspecialchars($user[':balance']['balance']) . '</p><br>';
+    $stmt = $pdo->prepare('SELECT balance FROM accountbalance WHERE user_id = :id');
+    $stmt->execute([':id' => $user[':id']]);
+    $balance = $stmt->fetchColumn();
+
+    $stmt = $pdo->prepare('SELECT iv FROM users WHERE id = :id');
+    $stmt->execute([':id' => $user[':id']]);
+    $iv = $stmt->fetchColumn();
+    $ivDecoded = base64_decode($iv);
+    $encryption_key = require '../encryptionKey.php';
+    $firstName = $user[':first_name'];
+    $lastName = $user[':last_name'];
+    $decryptedFirstName = openssl_decrypt($firstName, 'aes-256-cbc', $encryption_key, 0, $ivDecoded);
+    $decryptedLastName = openssl_decrypt($lastName, 'aes-256-cbc', $encryption_key, 0, $ivDecoded);
+
 } else { //Session user is not set yet, user isn't logged in
+    $_SESSION['message'] = "Please log in first!";
+    $_SESSION['message_type'] = "error";
     header('Location: login.php');
+}
+$stmt = $pdo->prepare('SELECT creditNumber FROM accountbalance WHERE user_id = :id');
+$stmt->execute([':id' => $user[':id']]);
+$result = $stmt->fetchColumn();
+
+//if credit card hasn't been added, redirect to the addCard page
+if (!strlen($result) > 0) {
+    header(header: 'Location: addCard.php');
 }
 ?>
 
@@ -37,21 +66,75 @@ if (isset($_SESSION['user'])) {
         </div>
     </div>
     <div class="container">
+        <h1> Currently Logged In User:</h1><br>
+        <div class="body">
+            <?php
+            echo '<p align = "center"> Email : ' . htmlspecialchars($user[':email']) . '</p><br>';
+            echo '<p align = "center"> Name : ' . htmlspecialchars($decryptedFirstName) . ' ' . htmlspecialchars($decryptedLastName) . '</p><br>';
+            echo '<p align="center">Current Balance: $' . htmlspecialchars($balance) . '</p><br>';
+            ?>
+            <div style="text-align: center;">
+                <a href="../scripts/logout.php"> Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
         <h1 class="form-title">
             Transfer Money To Your Bank
         </h1>
         <p style="text-indent: 40px"> How much would you like to transfer out?</p>
+        <?php
+        if (isset($errors['number_format'])) {
+            echo '<div class = "error-main"> 
+                    <p> ' . $errors['number_format'] . '</p>
+                  </div>';
+        } else if (isset($errors['insufficient_balance'])) {
+            echo '<div class = "error-main"> 
+                    <p> ' . $errors['insufficient_balance'] . '</p>
+                  </div>';
+        } else if (isset($errors['amount_sign'])) {
+            echo '<div class = "error-main"> 
+                    <p> ' . $errors['amount_sign'] . '</p>
+                  </div>';
+        }
+        ?>
+
         <form method="POST" action="../scripts/alterBalance.php">
             <div class="input-group">
                 <i class="fa-solid fa-dollar-sign"></i>
                 <input type="amount" name="amount" id="amount" required placeholder="Amount">
             </div>
+            <p>Account PIN for security purposes</p>
+            <?php
+            if (isset($errors['amount_type'])) {
+                echo '<div class = "error-main"> 
+                    <p> ' . $errors['amount_type'] . '</p>
+                  </div>';
+            } else if (isset($errors['amount_sign'])) {
+                echo '<div class = "error-main"> 
+                    <p> ' . $errors['amount_sign'] . '</p>
+                  </div>';
+            } else if (isset($errors['accountPIN'])) {
+                echo '<div class = "error-main"> 
+                    <p> ' . $errors['accountPIN'] . '</p>
+                  </div>';
+            }
+            ?>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="text" name="accountPIN" id="accountPIN" placeholder="Account Pin: " required>
+            </div>
             <p>
                 <input type="submit" class="btn" value="Transfer Money" name="transfer_out">
             </p>
-    </form>
+        </form>
     </div>
 
 </body>
 
 </html>
+<?php
+if (isset($_SESSION['errors'])) {
+    unset($_SESSION['errors']);
+}
+?>
